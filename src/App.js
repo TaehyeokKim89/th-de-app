@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import _ from 'lodash';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    const [searchText, setSearchText] = useState('');
+    const [inputText, setInputText] = useState('');
+
+    const handleSearchText = _.debounce((text) => {
+        setSearchText(text);
+    }, 2000);
+
+    //공통 함수
+    const hadleChange = (e) => {
+        setInputText(e.target.value);
+        handleSearchText(e.target.value);
+    };
+
+    return (
+        <div
+            style={{
+                paddingLeft: '20px',
+                paddingRight: '20px',
+            }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <h1>디바운싱 예제</h1>
+            <input
+                placeholder="입력값을 넣고 디바운싱 테스트를 해보세요."
+                style={{ width: '300px' }}
+                type="text"
+                onChange={hadleChange}
+            />
+            <p>Serch Text : {searchText} </p>
+            <p>Input Text : {inputText} </p>
+        </div>
+    );
 }
 
 export default App;
